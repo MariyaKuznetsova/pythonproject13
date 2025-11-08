@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Course(models.Model):
+    """Класс курсы"""
     name = models.CharField(max_length=150, verbose_name="Название курса")
     description = models.CharField(max_length=150, verbose_name="Описание курса")
     image = models.ImageField(upload_to="images/", blank=True, null=True, verbose_name="Изображение")
@@ -16,6 +17,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
+    """Класс уроки"""
     name = models.CharField(max_length=150, verbose_name="Название урока")
     description = models.CharField(max_length=150, verbose_name="Описание урока")
     image = models.ImageField(upload_to="images/", blank=True, null=True, verbose_name="Изображение")
