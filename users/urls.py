@@ -10,4 +10,3 @@ app_name = UsersConfig.name
 urlpatterns = [
     path("payment/", PaymentListView.as_view(), name="payment_list"),
 ]
-

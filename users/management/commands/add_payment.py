@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from users.models import Payment
 from study.models import Course, Lesson
+from users.models import Payment
 
 
 class Command(BaseCommand):
@@ -31,6 +31,14 @@ class Command(BaseCommand):
         for payment_data in payments:
             payment, created = Payment.objects.get_or_create(**payment_data)
             if created:
-                self.stdout.write(self.style.SUCCESS(f"Successfully added payment: {payment.user_payment}"))
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Successfully added payment: {payment.user_payment}"
+                    )
+                )
             else:
-                self.stdout.write(self.style.WARNING(f"Payment already exists: {payment.user_payment}"))
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Payment already exists: {payment.user_payment}"
+                    )
+                )
