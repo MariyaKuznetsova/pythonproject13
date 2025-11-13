@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 
 
-
 class Course(models.Model):
     """Класс курсы"""
 
@@ -12,7 +11,13 @@ class Course(models.Model):
         upload_to="images/", blank=True, null=True, verbose_name="Изображение"
     )
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец курса", blank=True, null=True)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец курса",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -41,7 +46,13 @@ class Lesson(models.Model):
         related_name="lessons",
     )
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Владелец урока", blank=True, null=True)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец урока",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Урок"
