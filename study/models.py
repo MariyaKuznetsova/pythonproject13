@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -8,6 +9,13 @@ class Course(models.Model):
     description = models.CharField(max_length=150, verbose_name="Описание курса")
     image = models.ImageField(
         upload_to="images/", blank=True, null=True, verbose_name="Изображение"
+    )
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец курса",
+        blank=True,
     )
 
     class Meta:
@@ -35,6 +43,14 @@ class Lesson(models.Model):
         null=True,
         verbose_name="Название курса",
         related_name="lessons",
+    )
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец урока",
+        blank=True,
+        null=True,
     )
 
     class Meta:
