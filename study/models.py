@@ -19,10 +19,12 @@ class Course(models.Model):
         null=True,
     )
 
+    price_course = models.PositiveIntegerField(verbose_name='Цена курса', blank=True, null=True)
+
     class Meta:
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
-        ordering = ["name", "description"]
+        ordering = ["name", "description", "price_course"]
 
     def __str__(self):
         return self.name
@@ -54,10 +56,12 @@ class Lesson(models.Model):
         null=True,
     )
 
+    price_lesson = models.PositiveIntegerField(verbose_name='Цена урока', blank=True, null=True)
+
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
-        ordering = ["name", "description", "courses"]
+        ordering = ["name", "description", "courses", "price_lesson"]
 
     def __str__(self):
         return self.name

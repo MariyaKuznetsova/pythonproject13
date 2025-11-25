@@ -58,7 +58,7 @@ class Payment(models.Model):
         verbose_name="Оплаченный урок",
         related_name="lesson_payment",
     )
-    sum_payment = models.PositiveIntegerField()
+    sum_payment = models.PositiveIntegerField(verbose_name='Сумма платежа', blank=True, null=True)
     PAYMENT_METHOD_CHOICES = [
         ("cash", "Наличные"),
         ("transfer", "Перевод на счет"),
@@ -67,9 +67,21 @@ class Payment(models.Model):
         max_length=20, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты"
     )
 
+    sum_payment_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="Id суммы платежа")
+    link = models.URLField(max_length=500, blank=True, null=True, verbose_name="Ссылка на оплату")
+
+    def save(self, *args, **kwargs):
+        if self.payment_course:
+            self.sum_payment = self.payment_course.price  # Предполагается, что у курса есть поле price
+        elif self.payment_lesson:
+            self.sum_payment = self.payment_lesson.price  # Предполагается, что у урока есть поле price
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
 
     def __str__(self):
-        return f"{self.users} - {self.data_payment}"
+        return f"{self.user_payment} - {self.date_payment}"
+
+
