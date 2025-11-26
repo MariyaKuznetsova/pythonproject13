@@ -2,14 +2,10 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from study.apps import StudyConfig
-from study.views import (
-    CourseViewSet,
-    LessonCreateAPIView,
-    LessonDestroyAPIView,
-    LessonListAPIView,
-    LessonRetrieveAPIView,
-    LessonUpdateAPIView,
-)
+from study.views import (CourseViewSet, LessonCreateAPIView,
+                         LessonDestroyAPIView, LessonListAPIView,
+                         LessonRetrieveAPIView, LessonUpdateAPIView,
+                         SubscriptionAPIView)
 
 app_name = StudyConfig.name
 
@@ -26,4 +22,5 @@ urlpatterns = [
     path(
         "lesson/delete/<int:pk>/", LessonDestroyAPIView.as_view(), name="lesson_delete"
     ),
+    path("subscription/", SubscriptionAPIView.as_view(), name="subscription"),
 ] + router.urls

@@ -1,24 +1,35 @@
 from rest_framework import serializers
 
-from study.models import Course, Lesson
+from study.models import Course, Lesson, Subscription
+from study.validators import validate_forbidden_url
 
 
 class LessonSerializer(serializers.ModelSerializer):
     """Сериализатор по урокам"""
 
+    video = serializers.URLField(validators=[validate_forbidden_url])
+
     class Meta:
         model = Lesson
-        fields = ["name", "description", "courses"]
+        fields = ["name", "description", "courses", "video"]
 
 
 class CourseSerializer(serializers.ModelSerializer):
     """Сериализатор по курсам"""
 
     lessons = LessonSerializer(many=True, read_only=True)
+    is_subscribed = serializers.SerializerMethodField()
+
+    def get_is_subscribed(self, obj):
+        user = self.context["request"].user
+        course = obj.course_subscription
+        return Subscription.objects.filter(
+            user_subscription=user, course_subscription=course
+        )
 
     class Meta:
         model = Course
-        fields = ["name", "description", "lessons"]
+        fields = ["name", "description", "lessons", "is_subscribed"]
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -33,3 +44,11 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ["name", "description", "lessons", "lesson_count"]
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    """Сериализатор по подпискам"""
+
+    class Meta:
+        model = Subscription
+        fields = ["user_subscription", "course_subscription"]
