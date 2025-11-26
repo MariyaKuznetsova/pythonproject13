@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from users.models import Payment, User
 
 from .serializers import PaymentSerializer, UserSerializer
-from .services import create_stripe_price, create_stripe_products, create_stripe_session
+from .services import create_stripe_price, create_stripe_session, create_stripe_product
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -40,16 +40,20 @@ class PaymentCreateAPIView(CreateAPIView):
     queryset = Payment.objects.all()
 
     def perform_create(self, serializer):
-        validated_data = serializer.validated_data
-        product_payment = create_stripe_products(name=validated_data.get('name'), description=validated_data.get('description'))
-        price = create_stripe_price(validated_data.get('sum_payment'))
+        pay = serializer.save(user_payment=self.request.user)
+        if pay.payment_course:
+            name = pay.payment_course.name
+            description = pay.payment_course.description
+            product = create_stripe_product(name, description)
+        elif pay.payment_lesson:
+            name = pay.payment_lesson.name
+            description = pay.payment_lesson.description
+            product = create_stripe_product(name, description)
+        print(pay)
+        print(product)
+        price = create_stripe_price(product, pay.sum_payment)
         session_id, payment_link = create_stripe_session(price)
-        payments = serializer.save(
-            user=self.request.user,
-            product_id=product_payment.id,
-            price_id=price.id,
-            session_id=validated_data.session_id,
-            link=validated_data.payment_link
-        )
-        payments.save()
+        pay.session_id = session_id
+        pay.link = payment_link
+        pay.save()
 
