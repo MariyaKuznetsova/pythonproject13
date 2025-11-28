@@ -86,6 +86,7 @@ class SubscriptionAPIView(APIView):
     """Контроллер по установки подписки пользователя и на удаление подписки у пользователя."""
 
     serializer_class = SubscriptionSerializer
+    permission_classes = (IsAuthenticated,)
 
     def post(self, *args, **kwargs):
         user = self.request.user
@@ -107,4 +108,4 @@ class SubscriptionAPIView(APIView):
             )
             message = "подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)
-        # Возвращаем ответ в API
+
