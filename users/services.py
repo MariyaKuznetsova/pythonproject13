@@ -27,7 +27,7 @@ def create_stripe_session(price):
     """Создание сессии на оплату."""
 
     session = stripe.checkout.Session.create(
-        success_url="http://127.0.0.1:8000/study/",
+        success_url="http://127.0.0.1:8000/study/lesson/",
         line_items=[{"price": price.get("id"), "quantity": 1}],
         mode="payment",
     )
