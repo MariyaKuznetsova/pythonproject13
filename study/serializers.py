@@ -18,10 +18,17 @@ class CourseSerializer(serializers.ModelSerializer):
     """Сериализатор по курсам"""
 
     lessons = LessonSerializer(many=True, read_only=True)
+    is_subscribed = serializers.SerializerMethodField()
+
+    def get_is_subscribed(self, obj):
+        user = self.context["request"].user
+        return Subscription.objects.filter(
+            user_subscription=user, course_subscription=obj
+        ).exists()
 
     class Meta:
         model = Course
-        fields = ["id", "name", "description", "lessons", "price"]
+        fields = ["id", "name", "description", "lessons", "price", "is_subscribed"]
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -35,7 +42,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ["id", "name", "description", "lessons", "lesson_count", "price"]
+        fields = ["id", "name", "description", "lessons", "lesson_count", "price", "is_subscribed"]
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
