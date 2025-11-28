@@ -107,4 +107,4 @@ class SubscriptionAPIView(APIView):
             )
             message = "подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)
-        # Возвращаем ответ в API
+

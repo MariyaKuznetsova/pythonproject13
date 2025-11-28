@@ -86,6 +86,8 @@ class LessonTestCase(APITestCase):
                     "name": self.lesson.name,
                     "description": self.lesson.description,
                     "courses": self.lesson.courses.pk,
+                    "id": self.lesson.pk,
+                    "price": self.lesson.price,
                     "video": None,
                 }
             ],

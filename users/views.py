@@ -49,8 +49,6 @@ class PaymentCreateAPIView(CreateAPIView):
             name = pay.payment_lesson.name
             description = pay.payment_lesson.description
             product = create_stripe_product(name, description)
-        print(pay)
-        print(product)
         price = create_stripe_price(product, pay.sum_payment)
         session_id, payment_link = create_stripe_session(price)
         pay.session_id = session_id
