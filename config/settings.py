@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "study",
     "rest_framework_simplejwt",
     "drf_yasg",
-    # "django_celery_beat",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -182,3 +182,10 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CELERY_BEAT_SCHEDULE = {
+    'deactivate_users': {
+        'task': 'study.tasks.deactivate_users',  # Путь к задаче
+        'schedule': timedelta(days=1),
+    },
+}

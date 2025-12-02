@@ -12,7 +12,7 @@ from study.serializers import (
     LessonSerializer,
     SubscriptionSerializer,
 )
-from study.tasks import add_numbers
+from study.tasks import send_information_about_subscription
 from users.permissions import IsModer, IsOwner
 
 
@@ -41,12 +41,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def perform_update(self, serializer):
-        course = serializer.save(self.request.user)
-        subscriptions = Subscription.objects.filter(course_subscription=course)
-        print(subscriptions)
+        course = serializer.save()
+        subscriptions = Subscription.objects.filter(course=course)
         for subscription in subscriptions:
-        #     # send_information_about_subscription.delay(subscription.user_subscription.email)
-            add_numbers.delay()
+            send_information_about_subscription.delay(subscription.user_subscription.email)
+
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
