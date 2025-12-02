@@ -19,7 +19,9 @@ class Course(models.Model):
         null=True,
     )
 
-    price = models.PositiveIntegerField(verbose_name='Цена курса', blank=True, null=True)
+    price = models.PositiveIntegerField(
+        verbose_name="Цена курса", blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Курс"
@@ -56,7 +58,9 @@ class Lesson(models.Model):
         null=True,
     )
 
-    price = models.PositiveIntegerField(verbose_name='Цена урока', blank=True, null=True)
+    price = models.PositiveIntegerField(
+        verbose_name="Цена урока", blank=True, null=True
+    )
 
     class Meta:
         verbose_name = "Урок"

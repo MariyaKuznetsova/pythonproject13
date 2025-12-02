@@ -6,9 +6,13 @@ from rest_framework.views import APIView
 
 from study.models import Course, Lesson, Subscription
 from study.paginators import MyPagination
-from study.serializers import (CourseDetailSerializer, CourseSerializer,
-                               LessonSerializer, SubscriptionSerializer)
-from study.tasks import send_information_about_subscription, add_numbers
+from study.serializers import (
+    CourseDetailSerializer,
+    CourseSerializer,
+    LessonSerializer,
+    SubscriptionSerializer,
+)
+from study.tasks import add_numbers
 from users.permissions import IsModer, IsOwner
 
 
@@ -38,14 +42,11 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         course = serializer.save(self.request.user)
-        print(course)
-        add_numbers.delay()
-        # subscriptions = Subscription.objects.filter(course_subscription=course)
-        # print(subscriptions)
-        # for subscription in subscriptions:
+        subscriptions = Subscription.objects.filter(course_subscription=course)
+        print(subscriptions)
+        for subscription in subscriptions:
         #     # send_information_about_subscription.delay(subscription.user_subscription.email)
-        #     add_numbers.delay()
-
+            add_numbers.delay()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
@@ -119,4 +120,3 @@ class SubscriptionAPIView(APIView):
             )
             message = "подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)
-

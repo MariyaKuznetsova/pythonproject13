@@ -4,6 +4,7 @@ from config.settings import STRIPE_API_KEY
 
 stripe.api_key = STRIPE_API_KEY
 
+
 def create_stripe_product(name, description):
     """Создание продукта"""
 
@@ -11,13 +12,14 @@ def create_stripe_product(name, description):
 
     return product
 
+
 def create_stripe_price(product, sum_payment):
     """Создание цены"""
 
     price = stripe.Price.create(
         currency="rub",
         unit_amount=sum_payment * 100,
-        product=product.get('id'),
+        product=product.get("id"),
     )
 
     return price
