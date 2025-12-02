@@ -8,6 +8,7 @@ from study.models import Course, Lesson, Subscription
 from study.paginators import MyPagination
 from study.serializers import (CourseDetailSerializer, CourseSerializer,
                                LessonSerializer, SubscriptionSerializer)
+from study.tasks import send_information_about_subscription, add_numbers
 from users.permissions import IsModer, IsOwner
 
 
@@ -34,6 +35,17 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.action == "destroy":
             self.permission_classes = (~IsModer, IsOwner)
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        course = serializer.save(self.request.user)
+        print(course)
+        add_numbers.delay()
+        # subscriptions = Subscription.objects.filter(course_subscription=course)
+        # print(subscriptions)
+        # for subscription in subscriptions:
+        #     # send_information_about_subscription.delay(subscription.user_subscription.email)
+        #     add_numbers.delay()
+
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
