@@ -8,12 +8,25 @@
 
 1. Клонируйте репозиторий:
 ```
-git@github.com:MariyaKuznetsova/pythonproject13.git
+git@github.com:MariyaKuznetsova/pythonproject13.git 
 ```
-2. Установите зависимости:
+2. Заполните нужные поля для приложения:
 ```
-pip install -r requirements.txt
+в файле .env_example
 ```
+3. Запустите Docker Compose:
+```
+docker-compose up --build
+```
+4. Для просмотра логов каждого контейнера для отладки их воспользуйтесь командой:
+```
+docker-compose logs
+```
+5. Для просмотра запущенных контейнеров:
+```
+docker-compose ps
+```
+
 ## Использование:
 
 1. В платформе для онлайн-обучения вы можете посмотреть урок по каждому курсу.
