@@ -46,8 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
-    "drf_yasg"
-    "users",
+    "drf_yasg" "users",
     "study",
     "rest_framework_simplejwt",
     "drf_yasg",
@@ -186,16 +185,16 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CELERY_BEAT_SCHEDULE = {
-    'deactivate_users': {
-        'task': 'study.tasks.deactivate_users',  # Путь к задаче
-        'schedule': timedelta(days=1),
+    "deactivate_users": {
+        "task": "study.tasks.deactivate_users",  # Путь к задаче
+        "schedule": timedelta(days=1),
     },
 }
 
 if "test" in sys.argv:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'test_db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "test_db.sqlite3",
         }
     }

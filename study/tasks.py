@@ -1,10 +1,9 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta, timezone
 
 from celery import shared_task
 from django.core.mail import send_mail
 
 from config.settings import EMAIL_HOST_USER
-
 from users.models import User
 
 
@@ -15,7 +14,9 @@ def send_information_about_subscription(email):
         subject="Обновление курса",
         message="Произошло обновление курса, вы можете ознакомится с новыми материалами.",
         from_email=EMAIL_HOST_USER,
-        recipient_list=[email,],
+        recipient_list=[
+            email,
+        ],
     )
 
 
@@ -27,5 +28,3 @@ def deactivate_users():
         if timezone.now() - u.last_login > timedelta(days=30):
             u.is_active = False
             u.save()
-
-

@@ -6,12 +6,8 @@ from rest_framework.views import APIView
 
 from study.models import Course, Lesson, Subscription
 from study.paginators import MyPagination
-from study.serializers import (
-    CourseDetailSerializer,
-    CourseSerializer,
-    LessonSerializer,
-    SubscriptionSerializer,
-)
+from study.serializers import (CourseDetailSerializer, CourseSerializer,
+                               LessonSerializer, SubscriptionSerializer)
 from study.tasks import send_information_about_subscription
 from users.permissions import IsModer, IsOwner
 
@@ -44,8 +40,9 @@ class CourseViewSet(viewsets.ModelViewSet):
         course = serializer.save()
         subscriptions = Subscription.objects.filter(course=course)
         for subscription in subscriptions:
-            send_information_about_subscription.delay(subscription.user_subscription.email)
-
+            send_information_about_subscription.delay(
+                subscription.user_subscription.email
+            )
 
 
 class LessonCreateAPIView(generics.CreateAPIView):

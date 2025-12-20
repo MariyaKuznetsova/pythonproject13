@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from users.models import Payment, User
 
 from .serializers import PaymentSerializer, UserSerializer
-from .services import create_stripe_price, create_stripe_session, create_stripe_product
+from .services import (create_stripe_price, create_stripe_product,
+                       create_stripe_session)
 
 
 class UserCreateAPIView(CreateAPIView):

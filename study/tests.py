@@ -1,9 +1,7 @@
 from django.urls import reverse
-from mypy.dmypy.client import request
 from rest_framework import status
-from rest_framework.test import APITestCase, force_authenticate
+from rest_framework.test import APITestCase
 
-import config
 from study.models import Course, Lesson, Subscription
 from users.models import User
 
