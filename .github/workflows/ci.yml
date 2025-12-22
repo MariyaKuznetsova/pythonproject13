@@ -32,6 +32,7 @@ jobs:
           POSTGRES_DB: homework30
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: Ku3764o8jfa1
+          SECRET_KEY: mj=b#6$+5uf&-++(wy@xx5#e+yx#-o%$v^bcl(0+bbm3@!a1d$
         ports:
           - 5432:5432
         options: >-
