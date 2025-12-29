@@ -1,4 +1,4 @@
-version: '3.11'
+#version: '3.11'
 
 services:
     nginx:
@@ -41,7 +41,7 @@ services:
             - postgres_data:/var/lib/postgresql/data
 
     redis:
-        image: redis:7
+        image: redis:latest
         container_name: redis
         ports:
             - "6379:6379"
