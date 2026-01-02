@@ -25,14 +25,20 @@ jobs:
   test:
     needs: lint
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: "ci-test-secret-key"
+      DB_NAME: homework30
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
     services:
       postgres:
         image: postgres:17
         env:
           POSTGRES_DB: homework30
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: Ku3764o8jfa1
-          SECRET_KEY: mj=b#6$+5uf&-++(wy@xx5#e+yx#-o%$v^bcl(0+bbm3@!a1d$
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
@@ -67,7 +73,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in in Docker Hub
-        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" -p "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
 
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }} .
@@ -88,7 +94,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
           docker stop myapp || true
           docker rm myapp || true
           docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
